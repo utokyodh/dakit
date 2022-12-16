@@ -56,11 +56,14 @@
         </div>
 
         {% if page_config['image_type'] == "single" %}
-        <div id="wrapper"><img id="zoomImg" class="thumb img"
+        <div id="wrapper"><img id="zoomImg" class="thumb img img-fluid"
                 src="{{ dakit_config['site']['document_root'] }}{{ page_config['image_single_loc'] }}"></div>
         {% elif page_config['image_type'] == "pdf" %}
-        <iframe
-            src="{{ dakit_config['site']['document_root'] }}pdfjs/web/viewer.html?file={{ page_config['image_single_loc'] }}"></iframe>
+        <div class="embed-responsive">
+            <iframe class="embed-responsive-item"
+                src="{{ dakit_config['site']['document_root'] }}pdfjs/web/viewer.html?file={{ page_config['image_single_loc'] }}"
+                title="{ page_config['item_title'] }}" allowfullscreen style="height: 900px; width: 100%;"></iframe>
+        </div>
         {% endif %}
 
         <table class="table table-striped table-hover">
