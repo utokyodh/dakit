@@ -43,12 +43,10 @@ const options = {
 const itemCounter = document.getElementById("itemCounter");
 const searchBox = document.getElementById("searchBox");
 const searchButton = document.getElementById("searchButton");
-const searchTargetSelector = document.getElementById("searchTarget");
-const searchTarget = document.querySelectorAll("#searchTarget option");
 const loadingSpinner = document.getElementById("loadingSpinner");
 
 let daList = {};
-let dict = {};
+let catalog = {};
 
 const tsvLoad = async (input) => {
     const savedTsv = sessionStorage.getItem("tsv");
@@ -62,7 +60,7 @@ const tsvLoad = async (input) => {
     }
 };
 
-const tsvToDict = (str) => {
+const tsvToArray = (str) => {
     const headers = str.split('\n')[0].split('\t');
     const rows = str.slice(str.indexOf("\n") + 1)
         .split(/\n|\r\n|\r/);
@@ -80,14 +78,16 @@ const tsvToDict = (str) => {
     });
     return arr;
 };
+
 loadingSpinner.classList.remove("d-none");
+
 tsvLoad(input)
     .then((text) => {
-        dict = tsvToDict(text.trimEnd());
+        catalog = tsvToArray(text.trimEnd());
         daList = new List('daList', options, dict);
         loadingSpinner.classList.add("d-none");
         daList.on("updated", function () {
-            itemCounter.innerText = String(Object.keys(daList.items).length) + "件の検索結果";
+            itemCounter.innerText = String(daList.matchingItems.length) + "件の検索結果";
             unmark();
             mark();
         });
@@ -96,32 +96,23 @@ tsvLoad(input)
         console.warn(error);
     });
 
-const defaultFuseOptions = {
-    threshold: 0.4,
-    useExtendedSearch: true
-};
-
-const fuseSearch = (query) => {
+const listSearch = (query) => {
     loadingSpinner.classList.remove("d-none");
-    if (query === "") {
-        daList.clear();
-        daList.add(dict);
-    } else {
-        const fuseOptions = Object.assign({}, defaultFuseOptions);
-        fuseOptions.keys = Object.keys(dict[0]);
-        const fuse = new Fuse(dict, fuseOptions);
-        daList.clear();
-        const result = fuse.search(query).map(x => x.item);
-        daList.add(result);
-    };
+    query = query.trimEnd();
+    if (query !== "") {
+        daList.search(query.split(/\s+/).join(" "));
+    }
     daList.update();
     loadingSpinner.classList.add("d-none");
 };
 
+const resetList = () => {
+    daList.search();
+    daList.update();
+}
+
 const executeSearch = (e) => {
-
-    fuseSearch(searchBox.value);
-
+    listSearch(searchBox.value);
 };
 
 const incrementalSearch = (e) => {
@@ -130,26 +121,11 @@ const incrementalSearch = (e) => {
         setTimeout(async () => {
             const currentInput = searchBox.value;
             if (input === currentInput) {
-                fuseSearch(input);
+                listSearch(input);
             }
         }, searchDelay);
     };
-    if (input === "") {
-        daList.clear();
-        daList.add(dict);
-        daList.update();
-    } else {
-        search();
-    };
-};
-
-const getSearchTarget = () => {
-    const target = searchTargetSelector.selectedOptions[0].value;
-    if (target === "all") {
-        return Object.keys(dict[0]);
-    } else {
-        return [target];
-    }
+    input === "" ? resetList() : search();
 };
 
 searchButton.addEventListener('click', {
@@ -160,11 +136,12 @@ searchBox.addEventListener('input', {
     handleEvent: incrementalSearch
 });
 
-function mark() {
+const mark = () => {
     var instance = new Mark(document.querySelectorAll("dl"));
     instance.mark(searchBox.value.replace(/[\x00-\x09\x0b-\x1f\x7f-\x9f]/g, '').replace(/\x0a/g, ''));
 };
-function unmark() {
+
+const unmark = () => {
     for (const target of document.querySelectorAll("mark")) {
         const parentEl = target.parentNode;
         while (target.firstChild) {
