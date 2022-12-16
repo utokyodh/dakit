@@ -84,7 +84,7 @@ loadingSpinner.classList.remove("d-none");
 tsvLoad(input)
 .then((text) => {
 catalog = tsvToArray(text.trimEnd());
-daList = new List('daList', options, dict);
+daList = new List('daList', options, catalog);
 loadingSpinner.classList.add("d-none");
 daList.on("updated", function () {
 itemCounter.innerText = String(daList.matchingItems.length) + "件の検索結果";
