@@ -4,8 +4,8 @@ const input = "{{ dakit_config['site']['document_root'] }}{{ dakit_config['site'
 const item_id_col_name = "{{ dakit_config['site']['list']['item_id_col_name'] }}"
 const item_title_col_name = "{{ dakit_config['site']['list']['item_title_col_name'] }}";
 const item_url_col_name = "{{ dakit_config['site']['list']['item_url_col_name'] }}";
-const item_iiif_manifest_url_col_name = "{{ dakit_config['site']['list']['item_iiif_manifest_url_col_name'] }}"
-const item_hidden_columns = [item_id_col_name, item_title_col_name, item_url_col_name, item_iiif_manifest_url_col_name];
+const item_image_col_name = "{{ dakit_config['site']['list']['item_image_col_name'] }}"
+const item_hidden_columns = [item_id_col_name, item_title_col_name, item_url_col_name, item_image_col_name];
 const options = {
 item: function (data) {
 

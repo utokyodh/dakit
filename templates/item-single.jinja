@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% if dakit_config['site']['theme']['css_from_cdn'] %}
+    {{ dakit_config['site']['theme']['css_cdn_tag'] }}
+    {% else %}
+    <link href="{{ dakit_config['site']['document_root'] }}{{ dakit_config['site']['theme']['css_loc'] }}"
+        rel="stylesheet">
+    {% endif %}
+    <title>{{ page_config['page_title'] }}</title>
+    {% if page_config['image_type'] == "single" %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.1/viewer.min.css"
+        integrity="sha512-XHhuZDcgyu28Fsd75blrhZKbqqWCXaUCOuy2McB4doeSDu34BgydakOK71TH/QEhr0nhiieBNhF8yWS8thOGUg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    {% endif %}
+    {% if dakit_config['site']['theme']['page_custom_css'] != "" %}
+    {{ dakit_config['site']['theme']['page_custom_css'] }}
+    {% endif %}
+    {% if dakit_config['site']['noindex'] %}
+    <meta name="robots" content="noindex nofollow noarchive">
+    {% endif %}
+</head>
+
+<body id="dakit">
+    <nav class="navbar fixed-top navbar-expand-sm {{ dakit_config['site']['navbar']['color'] }}">
+        <div class="container">
+            {% if dakit_config['site']['logo']['enabled'] %}
+            <a class="navbar-brand"
+                href="{{ dakit_config['site']['document_root'] }}{{ dakit_config['site']['index_loc'] }}"><img
+                    src="{{ dakit_config['site']['document_root'] }}{{ dakit_config['site']['logo']['loc'] }}"
+                    height="{{ dakit_config['site']['logo']['height'] }}"
+                    style="{{ dakit_config['site']['logo']['custom_style'] }}"></a>
+            {% else %}
+            <a class="navbar-brand"
+                href="{{ dakit_config['site']['document_root'] }}{{ dakit_config['site']['index_loc'] }}">{{
+                dakit_config['site']['title'] }}</a>
+            {% endif %}
+            {% if dakit_config['site']['navbar']['expand'] %}
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#dakit-navbar"
+                aria-controls="dakit-navbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="mb-4 bg-light rounded-3">
+            <div class="container-fluid py-5">
+                <h1 class="fw-bold">{{ page_config['item_title'] }}</h1>
+            </div>
+        </div>
+
+        {% if page_config['image_type'] == "single" %}
+        <div id="wrapper"><img id="zoomImg" class="thumb img img-fluid"
+                src="{{ dakit_config['site']['document_root'] }}{{ page_config['image_single_loc'] }}"></div>
+        {% elif page_config['image_type'] == "pdf" %}
+        <div class="embed-responsive">
+            <iframe class="embed-responsive-item"
+                src="{{ dakit_config['site']['document_root'] }}pdfjs/web/viewer.html?file={{ page_config['image_single_loc'] }}"
+                title="{ page_config['item_title'] }}" allowfullscreen style="height: 900px; width: 100%;"></iframe>
+        </div>
+        {% endif %}
+
+        <table class="table table-striped table-hover">
+            {% for field in keys %}
+            <tr>
+                <th>{{ field }}</th>
+                {% if field.startswith("http") %}
+                <td><a href="{{ dic[field] }}">{{ dic[field] }}</a></td>
+                {% else %}
+                <td>{{ dic[field] }}</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </table>
+
+    </div>
+
+    {% if dakit_config['site']['theme']['js_from_cdn'] %}
+    {{ dakit_config['site']['theme']['js_cdn_tag'] }}
+    {% else %}
+    <script href="{{ dakit_config['site']['theme']['js_loc'] }}"></script>
+    {% endif %}
+
+    {% if page_config['image_type'] == "single" %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.1/viewer.min.js"
+        integrity="sha512-UzpQxIWgLbHvbVd4+8fcRWqFLi1pQ6qO6yXm+Hiig76VhnhW/gvfvnacdPanleB2ak+VwiI5BUqrPovGDPsKWQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        const img = document.getElementById('zoomImg');
+        const viewer = new Viewer(img);
+    </script>
+    {% endif %}
+
+</body>
+
+</html>
