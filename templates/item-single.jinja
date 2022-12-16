@@ -12,7 +12,7 @@
         rel="stylesheet">
     {% endif %}
     <title>{{ page_config['page_title'] }}</title>
-    {% if dakit_page_image_type == "single" %}
+    {% if page_config['image_type'] == "single" %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.1/viewer.min.css"
         integrity="sha512-XHhuZDcgyu28Fsd75blrhZKbqqWCXaUCOuy2McB4doeSDu34BgydakOK71TH/QEhr0nhiieBNhF8yWS8thOGUg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -55,10 +55,10 @@
             </div>
         </div>
 
-        {% if dakit_page_image_type == "single" %}
+        {% if page_config['image_type'] == "single" %}
         <div id="wrapper"><img id="zoomImg" class="thumb img"
                 src="{{ dakit_config['site']['document_root'] }}{{ page_config['image_single_loc'] }}"></div>
-        {% elif dakit_page_image_type == "pdf" %}
+        {% elif page_config['image_type'] == "pdf" %}
         <iframe
             src="{{ dakit_config['site']['document_root'] }}pdfjs/web/viewer.html?file={{ page_config['image_single_loc'] }}"></iframe>
         {% endif %}
@@ -84,7 +84,7 @@
     <script href="{{ dakit_config['site']['theme']['js_loc'] }}"></script>
     {% endif %}
 
-    {% if dakit_page_image_type == "single" %}
+    {% if page_config['image_type'] == "single" %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.1/viewer.min.js"
         integrity="sha512-UzpQxIWgLbHvbVd4+8fcRWqFLi1pQ6qO6yXm+Hiig76VhnhW/gvfvnacdPanleB2ak+VwiI5BUqrPovGDPsKWQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
