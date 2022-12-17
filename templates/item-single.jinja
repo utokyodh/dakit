@@ -61,8 +61,8 @@
         {% elif page_config['image_type'] == "pdf" %}
         <div class="embed-responsive">
             <iframe class="embed-responsive-item"
-                src="{{ dakit_config['site']['document_root'] }}pdfjs/web/viewer.html?file={{ page_config['image_single_loc'] }}"
-                title="{ page_config['item_title'] }}" allowfullscreen style="height: 900px; width: 100%;"></iframe>
+                src="{{ dakit_config['site']['document_root'] }}pdfjs/web/viewer.html?file={{ dakit_config['site']['document_root'] }}{{ page_config['image_single_loc'] }}"
+                title="{{ page_config['item_title'] }}" allowfullscreen style="height: 900px; width: 100%;"></iframe>
         </div>
         {% endif %}
 
