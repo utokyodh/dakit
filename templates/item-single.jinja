@@ -70,7 +70,7 @@
             {% for field in keys %}
             <tr>
                 <th>{{ field }}</th>
-                {% if field.startswith("http") %}
+                {% if dic[field].startswith("http") %}
                 <td><a href="{{ dic[field] }}">{{ dic[field] }}</a></td>
                 {% else %}
                 <td>{{ dic[field] }}</td>

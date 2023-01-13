@@ -51,7 +51,8 @@
         </div>
 
         {% if page_config['image_type'] == "iiif" %}
-        <div id="mirador" style="height: 900px; position: relative; width: 100%; margin-top: 1rem; margin-bottom: 2rem"></div>
+        <div id="mirador" style="height: 900px; position: relative; width: 100%; margin-top: 1rem; margin-bottom: 2rem">
+        </div>
         {% elif dakit_page_image_type == "single" %}
         <img src="{{ page_config['image_single_loc'] }}">
         {% endif %}
@@ -60,7 +61,7 @@
             {% for field in keys %}
             <tr>
                 <th>{{ field }}</th>
-                {% if field.startswith("http") %}
+                {% if dic[field].startswith("http") %}
                 <td><a href="{{ dic[field] }}">{{ dic[field] }}</a></td>
                 {% else %}
                 <td>{{ dic[field] }}</td>
