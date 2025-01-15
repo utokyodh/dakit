@@ -9,11 +9,11 @@
  
 ## v3（メタデータ出力非対応）
 
-※本バージョンは、現時点でメタデータの出力に対応していません。
+※実装方針の変更のため、一時的にメタデータの出力を無効化しています。
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://colab.research.google.com/github/utokyodh/dakit/blob/main/dakit_v3.ipynb)
 
-## v2（メタデータ出力対応）
+## v2
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://colab.research.google.com/github/utokyodh/dakit/blob/main/dakit_v2.ipynb)
 
 ## v1
